@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Callistal Battle Simulator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Callistal Battle Simulator</h1>
+
+  <div id="battle-form">
+    <label>Army 1 Units (comma-separated IDs):</label>
+    <input type="text" id="army1" />
+
+    <label>Army 2 Units (comma-separated IDs):</label>
+    <input type="text" id="army2" />
+
+    <label>Terrain:</label>
+    <select id="terrain">
+      <option>forest</option>
+      <option>taiga</option>
+      <option>rainforest</option>
+      <option>desert</option>
+      <option>plains</option>
+      <option>tundra</option>
+      <option>mountain</option>
+    </select>
+
+    <label>Season:</label>
+    <select id="season">
+      <option>summer</option>
+      <option>winter</option>
+    </select>
+
+    <label>Weather:</label>
+    <select id="weather">
+      <option>clear</option>
+      <option>clouds</option>
+      <option>rainlight</option>
+      <option>rainheavy</option>
+      <option>snow</option>
+      <option>haillight</option>
+      <option>hailheavy</option>
+      <option>blizzard</option>
+    </select>
+
+    <button onclick="startBattle()">Simulate Battle</button>
+  </div>
+
+  <pre id="output"></pre>
+
+  <script src="units.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input, select {
+  width: 100%;
+  padding: 5px;
+  font-family: inherit;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+#output {
+  margin-top: 20px;
+  white-space: pre-wrap;
+  background-color: #fff;
+  padding: 15px;
+  border: 1px solid #ccc;
+}
