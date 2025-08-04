@@ -2,7 +2,7 @@
   "KAV1INF": {
     "country": "Kavia",
     "unit_type": "troops",
-    "unit_size": 791,
+    "unit_size": 5000,
     "tech_level": 6,
     "power_level": 30,
     "preferred_terrain": "forest",
@@ -12,7 +12,7 @@
   "CRO5HEV": {
     "country": "Caro'and",
     "unit_type": "heavy",
-    "unit_size": 227,
+    "unit_size": 500,
     "tech_level": 8,
     "power_level": 90,
     "preferred_terrain": "plains",
@@ -22,7 +22,7 @@
   "CRO6HEV": {
     "country": "Caro'and",
     "unit_type": "heavy",
-    "unit_size": 253,
+    "unit_size": 500,
     "tech_level": 8,
     "power_level": 80,
     "preferred_terrain": "tundra",
