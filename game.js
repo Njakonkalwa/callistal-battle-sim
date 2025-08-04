@@ -123,6 +123,19 @@ function resolveBattle(ids1, ids2, terrain, season, weather) {
   return `🏆 ${winnerIds.join(" + ")} wins!`;
 }
 
+window.runBattle = async function () {
+  await loadUnits(); // make sure units are loaded
+
+  const army1 = document.getElementById("army1").value.split(",").map(x => x.trim());
+  const army2 = document.getElementById("army2").value.split(",").map(x => x.trim());
+  const terrain = document.getElementById("terrain").value;
+  const season = document.getElementById("season").value;
+  const weather = document.getElementById("weather").value;
+
+  const result = resolveBattle(army1, army2, terrain, season, weather);
+  document.getElementById("output").textContent = result;
+};
+
 // Example usage after loadUnits()
 // await loadUnits();
 // const result = resolveBattle(["U1"], ["U2"], "forest", "summer", "clear");
