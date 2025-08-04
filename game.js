@@ -124,15 +124,19 @@ function resolveBattle(ids1, ids2, terrain, season, weather) {
 }
 
 window.runBattle = async function () {
-  await loadUnits(); // make sure units are loaded
+  await loadUnits();
 
-  const army1 = document.getElementById("army1").value.split(",").map(x => x.trim());
-  const army2 = document.getElementById("army2").value.split(",").map(x => x.trim());
+  const army1Raw = document.getElementById("army1").value;
+  const army2Raw = document.getElementById("army2").value;
+
+  const ids1 = army1Raw.split(",").map(x => x.trim()).filter(Boolean);
+  const ids2 = army2Raw.split(",").map(x => x.trim()).filter(Boolean);
+
   const terrain = document.getElementById("terrain").value;
   const season = document.getElementById("season").value;
   const weather = document.getElementById("weather").value;
 
-  const result = resolveBattle(army1, army2, terrain, season, weather);
+  const result = resolveBattle(ids1, ids2, terrain, season, weather);
   document.getElementById("output").textContent = result;
 };
 
