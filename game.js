@@ -67,7 +67,7 @@ function resolveBattle(ids1, ids2, terrain, season, weather) {
     for (let id of unitIds) {
       const unit = units[id];
       if (!unit) {
-        console.log(`❌ Unit ${id} not found.`);
+        indiv[id] = null;
         continue;
       }
       const strength = calculateStrength(unit, terrain, season, weather);
@@ -80,47 +80,94 @@ function resolveBattle(ids1, ids2, terrain, season, weather) {
   const { total: total1, indiv: strengths1 } = getStrengths(ids1);
   const { total: total2, indiv: strengths2 } = getStrengths(ids2);
 
-  if (total1 === 0 || total2 === 0) return "❌ One side has no valid units or strength.";
+  let log = "";
 
-  let winnerIds, loserIds, winnerTotal, loserTotal;
+  log += "=== Army 1 ===\n";
+  for (let id of ids1) {
+    const strength = strengths1[id];
+    if (strength == null) {
+      log += `❌ ${id} not found\n`;
+    } else {
+      log += `${id}: ${strength.toFixed(2)}\n`;
+    }
+  }
+  log += `Total: ${total1.toFixed(2)}\n\n`;
 
+  log += "=== Army 2 ===\n";
+  for (let id of ids2) {
+    const strength = strengths2[id];
+    if (strength == null) {
+      log += `❌ ${id} not found\n`;
+    } else {
+      log += `${id}: ${strength.toFixed(2)}\n`;
+    }
+  }
+  log += `Total: ${total2.toFixed(2)}\n\n`;
+
+  if (total1 === 0 || total2 === 0) {
+    log += "❌ One side has no valid units or strength.";
+    return log;
+  }
+
+  let winnerIds, loserIds, winnerTotal, loserTotal, winnerName, loserName;
   if (total1 > total2) {
     winnerIds = ids1;
     loserIds = ids2;
     winnerTotal = total1;
     loserTotal = total2;
+    winnerName = "Army 1";
+    loserName = "Army 2";
   } else if (total2 > total1) {
     winnerIds = ids2;
     loserIds = ids1;
     winnerTotal = total2;
     loserTotal = total1;
+    winnerName = "Army 2";
+    loserName = "Army 1";
   } else {
+    // Draw
     ids1.concat(ids2).forEach(id => {
       if (units[id]) {
         const loss = Math.round(units[id].unit_size * 0.3);
         units[id].unit_size = Math.max(0, units[id].unit_size - loss);
       }
     });
-    return "⚔️ It's a draw! All units lost ~30%.";
+    log += "⚔️ It's a draw! All units lost ~30% of size.";
+    return log;
   }
 
   const ratio = loserTotal / winnerTotal;
 
+  log += `🏆 ${winnerName} wins!\n\n`;
+
+  log += `=== Casualties ===\n`;
   loserIds.forEach(id => {
-    if (units[id]) {
-      const loss = Math.round(units[id].unit_size * (0.3 + Math.random() * 0.2));
-      units[id].unit_size = Math.max(0, units[id].unit_size - loss);
+    const unit = units[id];
+    if (unit) {
+      const loss = Math.round(unit.unit_size * (0.3 + Math.random() * 0.2));
+      log += `💀 ${id} (${loserName}): -${loss} units\n`;
+      unit.unit_size = Math.max(0, unit.unit_size - loss);
     }
   });
 
   winnerIds.forEach(id => {
-    if (units[id]) {
-      const loss = Math.round(units[id].unit_size * (0.15 + Math.random() * 0.1) * ratio);
-      units[id].unit_size = Math.max(0, units[id].unit_size - loss);
+    const unit = units[id];
+    if (unit) {
+      const loss = Math.round(unit.unit_size * (0.15 + Math.random() * 0.1) * ratio);
+      log += `💥 ${id} (${winnerName}): -${loss} units\n`;
+      unit.unit_size = Math.max(0, unit.unit_size - loss);
     }
   });
 
-  return `🏆 ${winnerIds.join(" + ")} wins!`;
+  log += `\n=== Remaining Units ===\n`;
+  ids1.concat(ids2).forEach(id => {
+    const unit = units[id];
+    if (unit) {
+      log += `${id}: ${unit.unit_size} remaining\n`;
+    }
+  });
+
+  return log;
 }
 
 window.runBattle = async function () {
